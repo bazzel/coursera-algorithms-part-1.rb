@@ -1,4 +1,4 @@
-class UnionFind
+class QuickFindUF
 
   def initialize(sites_count)
     @id = Array.new(sites_count) { |i| i }

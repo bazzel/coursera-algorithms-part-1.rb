@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'union_find'
+require 'quick_find_u_f'
 
-describe UnionFind do
+describe QuickFindUF do
   describe '#initialize' do
     subject { described_class.new(10) }
 
