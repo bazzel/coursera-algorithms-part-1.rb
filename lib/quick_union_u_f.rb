@@ -20,17 +20,13 @@ class QuickUnionUF
   # @param [FixNum] q id of site to connect to (0 <= q < sites_count)
   def union(p, q)
     p_root, q_root = root(p), root(q)
-
     @id[p_root] = q_root
   end
 
   private
   def root(site)
-    while (site != @id[site])
-      site = @id[site]
-    end
+    return site if site == @id[site]
 
-    site
+    return root(@id[site])
   end
-
 end
