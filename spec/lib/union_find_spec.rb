@@ -3,15 +3,20 @@ require 'union_find'
 
 describe UnionFind do
   describe '#initialize' do
+    subject { described_class.new(10) }
+
     it 'accepts a integer for the number of sites' do
-      expect do
-        described_class.new(10)
-      end.not_to raise_error
+      expect { subject }.not_to raise_error
     end
   end
 
   describe '#connected?' do
-    it 'is not connected on initialization'
+    subject { described_class.new(10) }
+
+    it 'has no connected sites on initialization' do
+      subject.connected?(0,1).should be_false
+      subject.connected?(3,5).should be_false
+    end
   end
 
 end
