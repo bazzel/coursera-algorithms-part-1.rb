@@ -3,6 +3,7 @@ class QuickUnionUF
   # @param [FixNum] sites_count Number of connected sites (> 0)
   def initialize(sites_count)
     @id = Array.new(sites_count) { |i| i }
+    @depth = Array.new(sites_count, 0)
   end
 
   # @return [Boolean] true if p and q are connected, false otherwise
@@ -20,13 +21,22 @@ class QuickUnionUF
   # @param [FixNum] q id of site to connect to (0 <= q < sites_count)
   def union(p, q)
     p_root, q_root = root(p), root(q)
-    @id[p_root] = q_root
+    deeper(p_root, q_root) ? link(q_root, p_root) : link(p_root, q_root)
   end
 
   private
   def root(site)
     return site if site == @id[site]
 
-    return root(@id[site])
+    root(@id[site])
+  end
+
+  def deeper(p, q)
+    @depth[p] > @depth[q]
+  end
+
+  def link(p, q)
+    @id[p] = q
+    @depth[p] = @depth[p].succ
   end
 end
