@@ -26,9 +26,11 @@ class QuickUnionUF
 
   private
   def root(site)
-    return site if site == @id[site]
+    while (site != @id[site])
+      site = @id[site]
+    end
 
-    root(@id[site])
+    site
   end
 
   def deeper(p, q)
