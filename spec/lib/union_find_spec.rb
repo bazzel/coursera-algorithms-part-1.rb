@@ -19,4 +19,13 @@ describe UnionFind do
     end
   end
 
+  describe '#union' do
+    subject { described_class.new(10) }
+
+    it 'connects 2 sites' do
+      subject.union(0,1)
+      subject.connected?(0,1).should be_true
+    end
+  end
+
 end
