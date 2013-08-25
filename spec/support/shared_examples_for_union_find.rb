@@ -46,6 +46,23 @@ shared_examples "a union-find" do
       subject.connected?(1,6).should be_false
       subject.connected?(0,9).should be_false
     end
+
+    it 'uses example from the demo in the course' do
+      subject.union(4,3)
+      subject.union(3,8)
+      subject.union(6,5)
+      subject.union(9,4)
+      subject.union(2,1)
+      subject.union(5,0)
+      subject.union(7,2)
+      subject.union(6,1)
+      subject.union(7,3)
+
+      # All sites are connected now
+      subject.connected?(3,9).should be_true
+      subject.connected?(7,6).should be_true
+      subject.connected?(0,5).should be_true
+    end
   end
 end
 

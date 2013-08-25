@@ -3,7 +3,8 @@ class QuickUnionUF
   # @param [FixNum] sites_count Number of connected sites (> 0)
   def initialize(sites_count)
     @id = Array.new(sites_count) { |i| i }
-    @depth = Array.new(sites_count, 0)
+    # Extra array sz[i] to count number of objects in the tree rooted at i.
+    @sz = Array.new(sites_count, 1)
   end
 
   # @return [Boolean] true if p and q are connected, false otherwise
@@ -21,7 +22,7 @@ class QuickUnionUF
   # @param [FixNum] q id of site to connect to (0 <= q < sites_count)
   def union(p, q)
     p_root, q_root = root(p), root(q)
-    deeper(p_root, q_root) ? link(q_root, p_root) : link(p_root, q_root)
+    shorter(p_root, q_root) ? link(p_root, q_root) : link(q_root, p_root)
   end
 
   private
@@ -33,12 +34,12 @@ class QuickUnionUF
     site
   end
 
-  def deeper(p, q)
-    @depth[p] > @depth[q]
+  def shorter(p, q)
+    @sz[p] < @sz[q]
   end
 
   def link(p, q)
     @id[p] = q
-    @depth[p] = @depth[p].succ
+    @sz[q] += @sz[p]
   end
 end

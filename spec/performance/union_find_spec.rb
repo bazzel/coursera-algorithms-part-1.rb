@@ -16,8 +16,10 @@ Benchmark.bm(18) do |bm|
         runs.times do |x|
           sites_count = c*b**x
           instance = clazz.new(sites_count)
-          bm.report("#{clazz} (#{sites_count})") { connect(instance, sites_count) }
-          instance.connected?(0, sites_count-1).should be_true
+          bm.report("#{clazz} (#{sites_count})") do
+            connect(instance, sites_count)
+            instance.connected?(0, sites_count-1).should be_true
+          end
         end
       end
     end
