@@ -1,18 +1,19 @@
 require 'spec_helper'
 require 'benchmark'
-require 'quick_find_u_f'
-require 'quick_union_u_f'
+%w(quick_find_u_f quick_union_u_f weighted_quick_union_u_f).each do |f|
+  require f
+end
 
 # To run this test:
 #   bundle exec rspec spec --tag @performance
-Benchmark.bm(18) do |bm|
+Benchmark.bm(28) do |bm|
   describe 'performance', performance: true do
     let(:c)    { 100 }
     let(:b)    { 2 }
     let(:runs) { 8 }
 
     it 'measures the running time for different implementations' do
-      [QuickFindUF, QuickUnionUF].each do |clazz|
+      [QuickFindUF, QuickUnionUF, WeightedQuickUnionUF].each do |clazz|
         runs.times do |x|
           sites_count = c*b**x
           instance = clazz.new(sites_count)
