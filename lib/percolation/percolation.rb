@@ -7,11 +7,16 @@ class Percolation
     QuickUnionUF.new(n+1)
   end
 
-  def open?(i, j)
-    assert_params(i, j)
+  def open?(r, c)
+    assert_params(r, c)
   end
 
-  def assert_params(i, j)
-    raise IndexError.new unless i.between?(1,n) && j.between?(1,n)
+  def open(r, c)
+
+  end
+
+  private
+  def assert_params(r, c)
+    raise IndexError.new unless r.between?(1,n) && c.between?(1,n)
   end
 end
