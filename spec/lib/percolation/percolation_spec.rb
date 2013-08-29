@@ -8,8 +8,8 @@ describe Percolation do
     let(:n) { 5 }
 
     # TODO: Do we really want to test this?
-    it 'instantiates a QuickUnionUF class with N+1' do
-      QuickUnionUF.should_receive(:new).with(n+1)
+    it 'instantiates a QuickUnionUF class with N+2' do
+      QuickUnionUF.should_receive(:new).with(n+2)
       subject
     end
   end
