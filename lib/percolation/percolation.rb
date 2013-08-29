@@ -20,6 +20,10 @@ class Percolation
     sites[idx_for(r, c)] = true
   end
 
+  def full?(r, c)
+    true
+  end
+
   private
   def assert_params(r, c)
     raise IndexError.new unless r.between?(1,n) && c.between?(1,n)

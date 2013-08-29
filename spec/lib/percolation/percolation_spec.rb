@@ -50,20 +50,29 @@ describe Percolation do
   end
 
   describe '#open' do
-    subject { described_class.new(n) }
-    let(:n) { 5 }
+    subject        { instance.open?(r, c) }
+    let(:instance) { described_class.new(n) }
+    let(:n)        { 5 }
 
     it 'opens the site at the specified coordinates' do
       r, c = 1, 1
-      subject.open(r,c)
-      subject.open?(r,c).should be_true
+      instance.open(r, c)
+      subject.should be_true
     end
   end
 
   describe 'full?' do
+    subject        { instance.full?(r, c) }
+    let(:instance) { described_class.new(n) }
+    let(:n)        { 5 }
+
     it 'returns true for an open site in the first row' do
+      c = 1
 
+      1.upto(n) do |r|
+        instance.open(r,c)
+        subject.should be_true
+      end
     end
-
   end
 end
