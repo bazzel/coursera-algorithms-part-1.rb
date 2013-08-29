@@ -3,6 +3,10 @@ require 'percolation/percolation'
 require 'quick_union_u_f'
 
 describe Percolation do
+  r, c = nil, nil
+
+  after { r, c = 1, 1 }
+
   describe '#new' do
     subject { described_class.new(n) }
     let(:n) { 5 }
@@ -15,14 +19,9 @@ describe Percolation do
   end
 
   describe '#open?' do
-    r, c = nil, nil
     let(:instance) { described_class.new(n) }
     subject { instance.open?(r,c) }
     let(:n) { 5 }
-
-    after do
-      r, c = 1, 1
-    end
 
     it 'returns false when site is not opened' do
       r, c = 1, 1
@@ -51,13 +50,8 @@ describe Percolation do
   end
 
   describe '#open' do
-    r, c = nil, nil
     subject { described_class.new(n) }
     let(:n) { 5 }
-
-    after do
-      r, c = 1, 1
-    end
 
     it 'opens the site at the specified coordinates' do
       r, c = 1, 1
@@ -66,4 +60,10 @@ describe Percolation do
     end
   end
 
+  describe 'full?' do
+    it 'returns true for an open site in the first row' do
+
+    end
+
+  end
 end
