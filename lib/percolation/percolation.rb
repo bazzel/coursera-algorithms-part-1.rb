@@ -38,13 +38,32 @@ class Percolation
     assert_params(r, c)
     sites[idx_for(r, c)] = true
 
-    if r == 1
+    if first_row?(r)
       uf.union(0, idx_for(r,c))
     else
       if open?(r-1,c)
-        uf.union(0, idx_for(r,c))
+        uf.union(idx_for(r,c), idx_for(r-1,c))
       end
     end
+
+    unless last_row?(r)
+      if open?(r+1, c)
+        uf.union(idx_for(r,c), idx_for(r+1,c))
+      end
+    end
+
+    unless first_col?(c)
+      if open?(r, c-1)
+        uf.union(idx_for(r,c), idx_for(r,c-1))
+      end
+    end
+
+    unless last_col?(c)
+      if open?(r, c+1)
+        uf.union(idx_for(r,c), idx_for(r,c+1))
+      end
+    end
+
   end
 
   def full?(r, c)
@@ -52,6 +71,22 @@ class Percolation
   end
 
   private
+  def first_row?(r)
+    r == 1
+  end
+
+  def last_row?(r)
+    r == n
+  end
+
+  def first_col?(c)
+    c == 1
+  end
+
+  def last_col?(c)
+    c == n
+  end
+
   def assert_params(r, c)
     raise IndexError.new unless r.between?(1,n) && c.between?(1,n)
   end

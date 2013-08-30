@@ -86,17 +86,19 @@ describe Percolation do
     let(:n)        { 5 }
 
     context 'sites in first row' do
-      before { c = 1 }
+      before { r = 1 }
 
       it 'returns true for an open site' do
-        1.upto(n) do |r|
+        1.upto(n) do |col|
+          c = col
           instance.open(r,c)
           subject.should be_true
         end
       end
 
       it 'returns false for a closed site' do
-        1.upto(n) do |r|
+        1.upto(n) do |col|
+          c = col
           subject.should be_false
         end
       end
@@ -105,16 +107,57 @@ describe Percolation do
     context 'sites with an upstairs neighbor' do
       before { c = 1 }
 
-      it 'returns false if neighbor is closed' do
+      it 'returns false if neighbor is not full' do
         r = 2
         instance.open(r, c)
         subject.should be_false
       end
 
-      it 'returns true if neighbor has been opened' do
+      it 'returns true if neighbor is full' do
         r = 2
         instance.open(1, c)
         instance.open(r, c)
+        subject.should be_true
+      end
+
+      it 'returns true if neighbor becomes full later' do
+        r = 2
+        instance.open(r, c)
+        instance.open(1, c)
+        subject.should be_true
+      end
+    end
+
+    context 'sites with a next door neighbor' do
+      before { r, c = 2, 2 }
+
+      it 'returns true when neighbor is full' do
+        instance.open(1,1)
+        instance.open(2,1)
+        instance.open(r,c)
+
+        subject.should be_true
+      end
+
+      it 'returns true when neighbor becomes full later' do
+        instance.open(1,1)
+        instance.open(r,c)
+        instance.open(2,1)
+
+        subject.should be_true
+      end
+    end
+
+    context 'sites in last row' do
+      before { r, c = n, 1 }
+
+      it 'returns true when neighbor is full' do
+        instance.open(1,c)
+        instance.open(2,c)
+        instance.open(3,c)
+        instance.open(4,c)
+        instance.open(5,c)
+
         subject.should be_true
       end
     end
