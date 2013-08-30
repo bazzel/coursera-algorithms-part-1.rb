@@ -102,5 +102,21 @@ describe Percolation do
       end
     end
 
+    context 'sites with an upstairs neighbor' do
+      before { c = 1 }
+
+      it 'returns false if neighbor is closed' do
+        r = 2
+        instance.open(r, c)
+        subject.should be_false
+      end
+
+      it 'returns true if neighbor has been opened' do
+        r = 2
+        instance.open(1, c)
+        instance.open(r, c)
+        subject.should be_true
+      end
+    end
   end
 end

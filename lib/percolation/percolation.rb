@@ -37,7 +37,14 @@ class Percolation
   def open(r, c)
     assert_params(r, c)
     sites[idx_for(r, c)] = true
-    uf.union(0, idx_for(r,c))
+
+    if r == 1
+      uf.union(0, idx_for(r,c))
+    else
+      if open?(r-1,c)
+        uf.union(0, idx_for(r,c))
+      end
+    end
   end
 
   def full?(r, c)
