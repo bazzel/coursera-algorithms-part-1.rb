@@ -85,20 +85,20 @@ describe Percolation do
     let(:instance) { described_class.new(n) }
     let(:n)        { 5 }
 
-    it 'returns true for an open site in the first row' do
-      c = 1
+    context 'sites in first row' do
+      before { c = 1 }
 
-      1.upto(n) do |r|
-        instance.open(r,c)
-        subject.should be_true
+      it 'returns true for an open site' do
+        1.upto(n) do |r|
+          instance.open(r,c)
+          subject.should be_true
+        end
       end
-    end
 
-    it 'returns false for a closed site in the first row' do
-      c = 1
-
-      1.upto(n) do |r|
-        subject.should be_false
+      it 'returns false for a closed site' do
+        1.upto(n) do |r|
+          subject.should be_false
+        end
       end
     end
 
