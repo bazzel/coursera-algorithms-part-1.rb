@@ -3,7 +3,7 @@ require 'percolation/percolation'
 require 'quick_union_u_f'
 
 describe Percolation do
-  r, c = nil, nil
+  r, c = 1, 1
 
   after { r, c = 1, 1 }
 
@@ -12,8 +12,8 @@ describe Percolation do
     let(:n) { 5 }
 
     # TODO: Do we really want to test this?
-    it 'instantiates a QuickUnionUF class with N+2' do
-      QuickUnionUF.should_receive(:new).with(n+2)
+    it 'instantiates a QuickUnionUF class with N**2+2' do
+      QuickUnionUF.should_receive(:new).with(n**2+2)
       subject
     end
   end
@@ -50,14 +50,33 @@ describe Percolation do
   end
 
   describe '#open' do
-    subject        { instance.open?(r, c) }
+    subject        { instance.open(r, c) }
     let(:instance) { described_class.new(n) }
     let(:n)        { 5 }
 
     it 'opens the site at the specified coordinates' do
       r, c = 1, 1
-      instance.open(r, c)
-      subject.should be_true
+      subject
+      instance.open?(r, c).should be_true
+    end
+
+    context 'raises an IndexError' do
+      it 'passed 0 or less for r' do
+        r = 0
+        expect { subject }.to raise_error(IndexError)
+      end
+      it 'passed 0 or less for c' do
+        c = 0
+        expect { subject }.to raise_error(IndexError)
+      end
+      it 'passed value greater than n for r' do
+        r = n+1
+        expect { subject }.to raise_error(IndexError)
+      end
+      it 'passed value greater than n for c' do
+        c = n+1
+        expect { subject }.to raise_error(IndexError)
+      end
     end
   end
 
@@ -74,5 +93,14 @@ describe Percolation do
         subject.should be_true
       end
     end
+
+    it 'returns false for a closed site in the first row' do
+      c = 1
+
+      1.upto(n) do |r|
+        subject.should be_false
+      end
+    end
+
   end
 end
