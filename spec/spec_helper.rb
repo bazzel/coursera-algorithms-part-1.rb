@@ -1,3 +1,5 @@
+Dir["./spec/support/**/*.rb"].sort.each {|f| require f}
+
 RSpec.configure do |c|
   c.filter_run_excluding performance: true
   c.filter_run focused: true
