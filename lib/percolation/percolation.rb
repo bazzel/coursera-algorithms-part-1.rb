@@ -50,6 +50,8 @@ class Percolation
       if open?(r+1, c)
         uf.union(idx_for(r,c), idx_for(r+1,c))
       end
+    else
+      uf.union(sites_count-1, idx_for(r,c))
     end
 
     unless first_col?(c)
@@ -68,6 +70,10 @@ class Percolation
 
   def full?(r, c)
     uf.connected?(0, idx_for(r,c))
+  end
+
+  def percolates?
+    uf.connected?(0, sites_count-1)
   end
 
   private
@@ -92,7 +98,7 @@ class Percolation
   end
 
   def idx_for(r, c)
-    (r-1)*5*c + c
+    (r-1)*5 + c
   end
 
   # Create an array with all sites for tracking if they're open (true) or closed (false)

@@ -162,4 +162,36 @@ describe Percolation do
       end
     end
   end
+
+  describe '#percolates?' do
+    let(:instance) { described_class.new(n) }
+    let(:n) { 5 }
+    subject { instance.percolates?  }
+
+    it 'returns false when no site in the bottom row is full' do
+      subject.should be_false
+    end
+
+    it 'returns true when a site in the bottom row is full' do
+      instance.open(1,1)
+      instance.open(2,1)
+      instance.open(3,1)
+      instance.open(4,1)
+      instance.open(5,1)
+
+      subject.should be_true
+    end
+
+    it 'returns true when random sites become full' do
+      instance.open(3,4)
+      instance.open(1,2)
+      instance.open(2,3)
+      instance.open(5,4)
+      instance.open(2,2)
+      instance.open(3,3)
+      instance.open(4,4)
+
+      subject.should be_true
+    end
+  end
 end
