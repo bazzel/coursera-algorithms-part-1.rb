@@ -39,33 +39,19 @@ class Percolation
     sites[idx_for(r, c)] = true
 
     if first_row?(r)
-      uf.union(0, idx_for(r,c))
+      connect_to_virtual_top_site(r,c)
     else
-      if open?(r-1,c)
-        uf.union(idx_for(r,c), idx_for(r-1,c))
-      end
+      connect_to_upstairs_neighbor(r,c)
     end
 
     unless last_row?(r)
-      if open?(r+1, c)
-        uf.union(idx_for(r,c), idx_for(r+1,c))
-      end
+      connect_to_downstairs_neighbor(r,c)
     else
-      uf.union(sites_count-1, idx_for(r,c))
+      connect_to_virtual_bottom_site(r,c)
     end
 
-    unless first_col?(c)
-      if open?(r, c-1)
-        uf.union(idx_for(r,c), idx_for(r,c-1))
-      end
-    end
-
-    unless last_col?(c)
-      if open?(r, c+1)
-        uf.union(idx_for(r,c), idx_for(r,c+1))
-      end
-    end
-
+    connect_to_left_neighbor(r,c)
+    connect_to_right_neighbor(r,c)
   end
 
   def full?(r, c)
@@ -77,6 +63,40 @@ class Percolation
   end
 
   private
+  def connect_to_virtual_top_site(r,c)
+    uf.union(0, idx_for(r,c))
+  end
+
+  def connect_to_virtual_bottom_site(r,c)
+    uf.union(sites_count-1, idx_for(r,c))
+  end
+
+  def connect_to_upstairs_neighbor(r,c)
+    return unless open?(r-1,c)
+
+    uf.union(idx_for(r,c), idx_for(r-1,c))
+  end
+
+  def connect_to_downstairs_neighbor(r,c)
+    return unless open?(r+1, c)
+
+    uf.union(idx_for(r,c), idx_for(r+1,c))
+  end
+
+  def connect_to_left_neighbor(r,c)
+    return if first_col?(c)
+    return unless open?(r, c-1)
+
+    uf.union(idx_for(r,c), idx_for(r,c-1))
+  end
+
+  def connect_to_right_neighbor(r,c)
+    return if last_col?(c)
+    return unless open?(r, c+1)
+
+    uf.union(idx_for(r,c), idx_for(r,c+1))
+  end
+
   def first_row?(r)
     r == 1
   end
