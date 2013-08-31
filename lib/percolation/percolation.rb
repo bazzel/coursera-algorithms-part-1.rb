@@ -22,9 +22,9 @@ class Percolation
 
   attr_reader :n, :sites, :uf
 
-  def initialize(n)
+  def initialize(n, uf_clazz)
     @n = n
-    @uf = QuickUnionUF.new(sites_count)
+    @uf = uf_clazz.new(sites_count)
 
     init_sites
   end

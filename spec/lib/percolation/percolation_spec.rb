@@ -5,21 +5,22 @@ require 'quick_union_u_f'
 describe Percolation do
   r, c = 1, 1
 
+  let(:uf) { QuickUnionUF }
   after { r, c = 1, 1 }
 
   describe '#new' do
-    subject { described_class.new(n) }
+    subject { described_class.new(n, uf) }
     let(:n) { 5 }
 
     # TODO: Do we really want to test this?
     it 'instantiates a QuickUnionUF class with N**2+2' do
-      QuickUnionUF.should_receive(:new).with(n**2+2)
+      uf.should_receive(:new).with(n**2+2)
       subject
     end
   end
 
   describe '#open?' do
-    let(:instance) { described_class.new(n) }
+    let(:instance) { described_class.new(n, uf) }
     subject { instance.open?(r,c) }
     let(:n) { 5 }
 
@@ -51,7 +52,7 @@ describe Percolation do
 
   describe '#open' do
     subject        { instance.open(r, c) }
-    let(:instance) { described_class.new(n) }
+    let(:instance) { described_class.new(n, uf) }
     let(:n)        { 5 }
 
     it 'opens the site at the specified coordinates' do
@@ -82,7 +83,7 @@ describe Percolation do
 
   describe 'full?' do
     subject        { instance.full?(r, c) }
-    let(:instance) { described_class.new(n) }
+    let(:instance) { described_class.new(n, uf) }
     let(:n)        { 5 }
 
     context 'sites in first row' do
@@ -164,7 +165,7 @@ describe Percolation do
   end
 
   describe '#percolates?' do
-    let(:instance) { described_class.new(n) }
+    let(:instance) { described_class.new(n, uf) }
     let(:n) { 5 }
     subject { instance.percolates?  }
 
