@@ -8,7 +8,7 @@ describe Percolation do
   let(:uf) { QuickUnionUF }
   after { r, c = 1, 1 }
 
-  describe '#new' do
+  describe '.new' do
     subject { described_class.new(n, uf) }
     let(:n) { 5 }
 
