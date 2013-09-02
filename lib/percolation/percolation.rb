@@ -116,7 +116,7 @@ class Percolation
   end
 
   def idx_for(r, c)
-    (r-1)*5 + c
+    (r-1)*n + c
   end
 
   # Create an array with all sites for tracking if they're open (true) or closed (false)
