@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'percolation/percolation_stats'
 require 'percolation/percolation'
+require 'percolation/percolation_randomizer'
 require 'quick_union_u_f'
 
 describe PercolationStats do
@@ -9,10 +10,15 @@ describe PercolationStats do
     let(:uf)               { QuickUnionUF }
     let(:n)                { 5 }
     let(:t)                { 2 }
-    let(:percolation_stub) { double('Percolation').as_null_object }
+    let(:randomizer_stub) { double('PercolationRandomizer') }
+    let(:percolation_stub) { Percolation.new(n, uf) }
 
     before do
+      percolation_stub.stub(:open) { true }
       Percolation.stub(:new).and_return(percolation_stub)
+
+      PercolationRandomizer.stub(:new).and_return(randomizer_stub)
+      randomizer_stub.stub(:position).and_return([1,1])
     end
 
     it 'creates a Percolation instance of NxN with speficied UnionFind class' do
@@ -25,9 +31,40 @@ describe PercolationStats do
       subject
     end
 
-    it 'opens sites until it percolates' do
-      percolation_stub.should_receive(:open).at_least(n*t).times
-      subject
+    describe 'calling open' do
+      let(:t) { 1 }
+
+      context 'on a 1x1 Percolation' do
+        let(:n) { 1 }
+
+        it 'opens 1 site' do
+          percolation_stub.should_receive(:open).with(1,1).exactly(1).times.and_call_original
+          subject
+        end
+      end
+
+      context 'on a 2x2 Percolation' do
+        let(:n) { 2 }
+
+        xit 'opens at most 3 sites' do
+          percolation_stub.should_receive(:open).at_most(3).times
+          subject
+        end
+
+        xit 'opens at least one site in every row' do
+          1.upto(n) do |r|
+            percolation_stub.should_receive(:open).with(r, anything).at_least(1).times
+          end
+          subject
+        end
+
+        xit 'opens at least one site in every column' do
+          1.upto(n) do |c|
+            percolation_stub.should_receive(:open).with(anything, c).at_least(1).times
+          end
+          subject
+        end
+      end
     end
   end
 end

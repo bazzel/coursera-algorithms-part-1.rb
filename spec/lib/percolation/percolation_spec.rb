@@ -169,7 +169,12 @@ describe Percolation do
     let(:n) { 5 }
     subject { instance.percolates?  }
 
-    it 'returns false when no site in the bottom row is full' do
+    fit 'returns false when no site in the bottom row is full' do
+      instance.open(1,1)
+      instance.open(2,1)
+      instance.open(3,1)
+      instance.open(4,1)
+
       subject.should be_false
     end
 
