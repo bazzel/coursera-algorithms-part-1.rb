@@ -18,24 +18,32 @@ describe PercolationStats do
       Percolation.stub(:new).and_return(percolation_stub)
 
       PercolationRandomizer.stub(:new).and_return(randomizer_stub)
-      randomizer_stub.stub(:position).and_return([1,1])
     end
 
-    it 'creates a Percolation instance of NxN with speficied UnionFind class' do
-      Percolation.should_receive(:new).at_least(:once).with(n, uf)
-      subject
-    end
+    describe 'create a Percolation instance' do
+      before do
+        percolation_stub.stub(:percolates?) { true }
+      end
 
-    it 'creates T times a Percolation instance' do
-      Percolation.should_receive(:new).exactly(t).times
-      subject
-    end
+      it 'of NxN with speficied UnionFind class' do
+        Percolation.should_receive(:new).at_least(:once).with(n, uf)
+        subject
+      end
 
+      it 'T times a Percolation instance' do
+        Percolation.should_receive(:new).exactly(t).times
+        subject
+      end
+
+    end
     describe 'calling open' do
       let(:t) { 1 }
 
       context 'on a 1x1 Percolation' do
         let(:n) { 1 }
+        before do
+          randomizer_stub.stub(:position).and_return([1,1])
+        end
 
         it 'opens 1 site' do
           percolation_stub.should_receive(:open).with(1,1).exactly(1).times.and_call_original
@@ -45,22 +53,25 @@ describe PercolationStats do
 
       context 'on a 2x2 Percolation' do
         let(:n) { 2 }
+        before do
+          randomizer_stub.stub(:position).and_return([1,1], [2,2], [1,2], [2,1])
+        end
 
-        xit 'opens at most 3 sites' do
-          percolation_stub.should_receive(:open).at_most(3).times
+        it 'opens at most 3 sites' do
+          percolation_stub.should_receive(:open).at_most(3).times.and_call_original
           subject
         end
 
-        xit 'opens at least one site in every row' do
+        it 'opens at least one site in every row' do
           1.upto(n) do |r|
-            percolation_stub.should_receive(:open).with(r, anything).at_least(1).times
+            percolation_stub.should_receive(:open).with(r, anything).at_least(1).times.and_call_original
           end
           subject
         end
 
-        xit 'opens at least one site in every column' do
+        it 'opens at least one site in every column' do
           1.upto(n) do |c|
-            percolation_stub.should_receive(:open).with(anything, c).at_least(1).times
+            percolation_stub.should_receive(:open).with(anything, c).at_least(1).times.and_call_original
           end
           subject
         end
