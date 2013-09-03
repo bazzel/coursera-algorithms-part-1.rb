@@ -10,7 +10,7 @@ describe PercolationStats do
     let(:uf)               { QuickUnionUF }
     let(:n)                { 5 }
     let(:t)                { 2 }
-    let(:randomizer_stub) { double('PercolationRandomizer') }
+    let(:randomizer_stub)  { double('PercolationRandomizer') }
     let(:percolation_stub) { Percolation.new(n, uf) }
 
     before do
@@ -41,6 +41,7 @@ describe PercolationStats do
 
       context 'on a 1x1 Percolation' do
         let(:n) { 1 }
+
         before do
           randomizer_stub.stub(:position).and_return([1,1])
         end
@@ -53,6 +54,7 @@ describe PercolationStats do
 
       context 'on a 2x2 Percolation' do
         let(:n) { 2 }
+
         before do
           randomizer_stub.stub(:position).and_return([1,1], [2,2], [1,2], [2,1])
         end
