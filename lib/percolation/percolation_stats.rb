@@ -6,7 +6,7 @@ require 'percolation/percolation_randomizer'
 class PercolationStats
   extend Forwardable
 
-  attr_reader :n, :open_sites_fractions
+  attr_reader :n, :t, :open_sites_fractions
   def_delegators :@open_sites_fractions, :mean, :standard_deviation, :confidence
 
   class << self
@@ -17,9 +17,11 @@ class PercolationStats
     private
     def result_for(instance)
       result = []
+      result << "#{instance.t} independent computational experiments on an #{instance.n}-by-#{instance.n} grid:"
       result << "mean                    = #{instance.mean}"
       result << "stddev                  = #{instance.standard_deviation}"
       result << "95% confidence interval = #{instance.confidence(:lower)}, #{instance.confidence(:upper)}"
+      result << ""
 
       result.join("\n")
     end
@@ -27,6 +29,7 @@ class PercolationStats
 
   def initialize(n, t, uf_clazz)
     @n = n
+    @t = t
     @open_sites_fractions = []
 
     t.times { open_sites_fractions << open_sites_fraction(uf_clazz) }
