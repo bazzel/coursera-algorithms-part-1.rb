@@ -80,4 +80,58 @@ describe PercolationStats do
       end
     end
   end
+
+  describe '#mean' do
+    let(:uf)               { QuickUnionUF }
+    let(:t)                { 1 }
+    let(:instance)         { described_class.new(n, t, uf) }
+    let(:randomizer_stub)  { double('PercolationRandomizer') }
+
+    subject { instance.mean }
+
+    before do
+      PercolationRandomizer.stub(:new).and_return(randomizer_stub)
+    end
+
+    describe 'on a 2x2 Percolation' do
+      let(:n) { 2 }
+
+      it 'returns 0.75 since 75% of the sites needed to be opened before it percolates' do
+        randomizer_stub.stub(:position).and_return([1,1], [2,2], [1,2], [2,1])
+        subject.should == 0.75
+      end
+
+      it 'returns 0.5 since 50% of the sites needed to be opened before it percolates' do
+        randomizer_stub.stub(:position).and_return([1,1], [2,1])
+        subject.should == 0.5
+      end
+    end
+
+    describe 'on a 3x3 Percolation' do
+      let(:n) { 3 }
+
+      before do
+        randomizer_stub.stub(:position).and_return([1,1], [2,1], [3,1])
+      end
+
+      it 'returns 0.333 since 33.333% of the sites needed to be opened before it percolates' do
+        subject.should be_within(0.3).of(0.3333)
+      end
+    end
+
+  end
+
+  describe '.main' do
+    subject { described_class.main(n, t) }
+    let(:n) { 2 }
+    let(:t) { 1 }
+
+    it 'prints out some statistics' do
+      output = subject
+
+      output.should match(/mean\s*=/)
+      output.should match(/stddev\s*=/)
+      output.should match(/95% confidence interval\s*=/)
+    end
+  end
 end
