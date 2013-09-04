@@ -1,5 +1,11 @@
+require 'forwardable'
+
 class PercolationStats
+  extend Forwardable
+
   attr_reader :n, :open_sites_fractions
+  def_delegators :@open_sites_fractions, :mean, :standard_deviation
+
   class << self
     def main(n, t)
       instance = new(n, t, QuickUnionUF)
@@ -13,14 +19,6 @@ class PercolationStats
     @open_sites_fractions = []
 
     t.times { open_sites_fractions << open_sites_fraction(uf_clazz) }
-  end
-
-  def mean
-    open_sites_fractions.mean
-  end
-
-  def standard_deviation
-    open_sites_fractions.standard_deviation
   end
 
   private
