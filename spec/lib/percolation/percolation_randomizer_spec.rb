@@ -20,7 +20,7 @@ describe PercolationRandomizer do
       position.last.should be <= n
     end
 
-    fit 'returns every element once in random order' do
+    it 'returns every element once in random order' do
       positions = []
       4.times do
         positions << instance.position

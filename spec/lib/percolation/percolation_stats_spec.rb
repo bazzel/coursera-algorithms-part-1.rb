@@ -1,13 +1,11 @@
 require 'spec_helper'
 require 'percolation/percolation_stats'
-require 'percolation/percolation'
 require 'percolation/percolation_randomizer'
-require 'quick_union_u_f'
 
 describe PercolationStats do
   describe '.new' do
     subject                { described_class.new(n,t,uf) }
-    let(:uf)               { QuickUnionUF }
+    let(:uf)               { WeightedQuickUnionUF }
     let(:n)                { 5 }
     let(:t)                { 2 }
     let(:randomizer_stub)  { double('PercolationRandomizer') }
@@ -82,7 +80,7 @@ describe PercolationStats do
   end
 
   describe '#mean' do
-    let(:uf)               { QuickUnionUF }
+    let(:uf)               { WeightedQuickUnionUF }
     let(:t)                { 1 }
     let(:instance)         { described_class.new(n, t, uf) }
     let(:randomizer_stub)  { double('PercolationRandomizer') }

@@ -1,16 +1,27 @@
 require 'forwardable'
+require 'weighted_quick_union_u_f'
+require 'percolation/percolation'
+require 'percolation/percolation_randomizer'
 
 class PercolationStats
   extend Forwardable
 
   attr_reader :n, :open_sites_fractions
-  def_delegators :@open_sites_fractions, :mean, :standard_deviation
+  def_delegators :@open_sites_fractions, :mean, :standard_deviation, :confidence
 
   class << self
     def main(n, t)
-      instance = new(n, t, QuickUnionUF)
+      result_for(new(n, t, WeightedQuickUnionUF))
+    end
 
-      "mean      = #{instance.mean}\nstddev      =#{instance.standard_deviation}\n95% confidence interval     ="
+    private
+    def result_for(instance)
+      result = []
+      result << "mean                    = #{instance.mean}"
+      result << "stddev                  = #{instance.standard_deviation}"
+      result << "95% confidence interval = #{instance.confidence(:lower)}, #{instance.confidence(:upper)}"
+
+      result.join("\n")
     end
   end
 
@@ -44,9 +55,9 @@ module Enumerable
 
   #  variance of an array of numbers
   def sample_variance
-    avg=mean
-    sum=inject(0){|acc,i|acc +(i-avg)**2}
-    sum.to_f/length
+    avg = mean
+    sum = inject(0){|acc,i|acc +(i-avg)**2}
+    sum.to_f/size
   end
 
   #  standard deviation of an array of numbers
@@ -54,4 +65,13 @@ module Enumerable
     Math.sqrt(sample_variance)
   end
 
+  def confidence(bound)
+    avg = mean
+    delta = 1.96*standard_deviation / Math.sqrt(size)
+    if bound == :upper
+      avg + delta
+    else
+      avg - delta
+    end
+  end
 end  #  module Enumerable
