@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'percolation/percolation_stats'
-require 'percolation/percolation_randomizer'
 
 describe PercolationStats do
   describe '.new' do
