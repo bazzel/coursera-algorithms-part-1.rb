@@ -19,5 +19,4 @@ class LinkedStackOfStrings
   def is_empty?
     !first
   end
-
 end
