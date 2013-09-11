@@ -1,7 +1,7 @@
 # Queue: linked-list representation
 # Maintain pointer to first and last nodes in a linked list;
 # insert/remove from opposite ends.
-class LinkedQueueOfStrings
+class LinkedQueue
   Node = Struct.new(:item, :next)
   attr_reader :first, :last
 

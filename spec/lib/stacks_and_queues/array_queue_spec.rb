@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'stacks_and_queues/array_queue_of_strings'
+require 'stacks_and_queues/array_queue'
 
-describe ArrayQueueOfStrings do
+describe ArrayQueue do
   subject do
     described_class.new
   end

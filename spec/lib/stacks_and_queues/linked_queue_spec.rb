@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'stacks_and_queues/linked_queue_of_strings'
+require 'stacks_and_queues/linked_queue'
 
-describe LinkedQueueOfStrings do
+describe LinkedQueue do
   subject do
     described_class.new
   end

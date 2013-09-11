@@ -1,6 +1,6 @@
 # Stack: linked-list representation
 # Maintain pointer to first node in a linked list; insert/remove from front.
-class LinkedStackOfStrings
+class LinkedStack
   Node = Struct.new(:item, :next)
   attr_reader :first
 

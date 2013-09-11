@@ -1,5 +1,5 @@
 # Array implementation of a queue
-class ArrayQueueOfStrings < Array
+class ArrayQueue < Array
   alias :enqueue :unshift
   alias :dequeue :pop
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'stacks_and_queues/array_stack_of_strings'
+require 'stacks_and_queues/linked_stack'
 
-describe ArrayStackOfStrings do
+describe LinkedStack do
   subject do
     described_class.new
   end
@@ -29,4 +29,3 @@ describe ArrayStackOfStrings do
     result.should == %w(to be not that or be)
   end
 end
-
