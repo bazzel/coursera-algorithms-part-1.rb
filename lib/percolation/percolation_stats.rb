@@ -1,5 +1,5 @@
 require 'forwardable'
-require 'weighted_quick_union_u_f'
+require 'union_find/weighted_quick_union_u_f'
 require 'percolation/percolation'
 require 'percolation/percolation_randomizer'
 

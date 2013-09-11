@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'benchmark'
-%w(quick_find_u_f quick_union_u_f weighted_quick_union_u_f).each do |f|
-  require f
-end
+Dir['union_find/*.rb'].each { |f| require f }
 
 # To run this test:
 #   bundle exec rspec spec --tag @performance

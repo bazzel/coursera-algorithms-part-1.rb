@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'percolation/percolation'
-require 'quick_union_u_f'
+require 'union_find/quick_union_u_f'
 
 describe Percolation do
   r, c = 1, 1
