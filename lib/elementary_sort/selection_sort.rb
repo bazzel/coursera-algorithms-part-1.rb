@@ -1,7 +1,5 @@
-class SelectionSort
+module SelectionSort
 
-  class << self
-    def sort(items)
-    end
+  def sort
   end
 end
