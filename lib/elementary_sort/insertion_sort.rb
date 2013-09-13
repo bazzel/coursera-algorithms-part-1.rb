@@ -2,25 +2,18 @@
 # Invariants:
 #  ・Entries to the left of ↑ (including ↑) are in ascending order.
 #  ・Entries to the right of ↑ have not yet been seen.
+require 'elementary_sort/sort_helpers'
+
 module InsertionSort
+  include SortHelpers
+
   def sort
-    0.upto(size-1) do |i|
+    each_index do |i|
       i.downto(1) do |j|
-        if less?(j, j-1)
-          exch(j, j-1)
-        end
+        exch(j, j-1) if less?(j, j-1)
       end
-
     end
+
     self
-  end
-
-  private
-  def less?(v, w)
-    self[v] < self[w]
-  end
-
-  def exch(i, j)
-    self[i], self[j] = self[j], self[i]
   end
 end

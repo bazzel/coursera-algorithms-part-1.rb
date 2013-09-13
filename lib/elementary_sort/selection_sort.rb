@@ -2,7 +2,11 @@
 # Invariants:
 #  ・Entries the left of ↑ (including ↑) fixed and in ascending order.
 #  ・No entry to right of ↑ is smaller than any entry to the left of ↑.
+require 'elementary_sort/sort_helpers'
+
 module SelectionSort
+  include SortHelpers
+
   def sort
     each_index do |i|
       min = i
@@ -13,14 +17,5 @@ module SelectionSort
     end
 
     self
-  end
-
-  private
-  def less?(v, w)
-    self[v] < self[w]
-  end
-
-  def exch(i, j)
-    self[i], self[j] = self[j], self[i]
   end
 end
