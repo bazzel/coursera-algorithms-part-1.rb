@@ -4,19 +4,23 @@
 #  ・No entry to right of ↑ is smaller than any entry to the left of ↑.
 module SelectionSort
   def sort
-    0.upto(self.size-1) do |i|
+    each_index do |i|
       min = i
       (i+1).upto(self.size-1) do |j|
-        if self[j] < self[min]
-          min = j
-        end
-
+        min = j if less?(j, min)
       end
-      swap = self[i]
-      self[i] = self[min]
-      self[min] = swap
+      exch(i, min)
     end
 
     self
+  end
+
+  private
+  def less?(v, w)
+    self[v] < self[w]
+  end
+
+  def exch(i, j)
+    self[i], self[j] = self[j], self[i]
   end
 end
